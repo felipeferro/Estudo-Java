@@ -1,10 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
-<body >
+<body>
 	<c:import url="cabecalho.jsp" />
+
 	<!-- cria o DAO -->
-	<jsp:useBean id="dao" class="br.com.ferro.jdbc.dao.ContatoDao" />
+	<%-- <jsp:useBean id="dao" class="br.com.ferro.jdbc.dao.ContatoDao" /> --%>
 
 	<table>
 		<tr bgcolor="#999">
@@ -14,10 +15,12 @@
 			<td><b>Email</b></td>
 			<td><b>Data Nascimento</b></td>
 		</tr>
+
 		<!-- percorre contatos montando as linhas da tabela -->
-		<c:forEach var="contato" items="${dao.lista}" varStatus="id">
-			<tr bgcolor="#${id.count % 2 == 0 ? 'fff' : 'ccc' }">
-				<td>${id.count}</td>
+		<%-- 	<c:forEach var="contato" items="${dao.lista}" varStatus="linha"> --%>
+		<c:forEach var="contato" items="${contatos}" varStatus="linha">
+			<tr bgcolor="#${linha.count % 2 == 0 ? 'fff' : 'ccc' }">
+				<td>${linha.count}</td>
 				<td>${contato.nome}</td>
 				<td><c:choose>
 						<c:when test="${not empty contato.email}">
@@ -30,7 +33,8 @@
 				<td>${contato.endereco}</td>
 				<td><fmt:formatDate value="${contato.dataNascimento.time}"
 						pattern="dd/MM/yyyy" /></td>
-			</tr>
+				<td><a href="mvc?logica=RemoveContatoLogic&id=${contato.id}">Remover</a>
+				<td><a href="mvc?logica=AlteraContatoLogic&id=${contato.id}">Alterar</a></tr>
 		</c:forEach>
 	</table>
 	<c:import url="rodape.jsp" />

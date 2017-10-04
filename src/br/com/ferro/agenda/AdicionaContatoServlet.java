@@ -2,6 +2,7 @@ package br.com.ferro.agenda;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,7 +67,9 @@ public class AdicionaContatoServlet extends HttpServlet {
 		contato.setDataNascimento(dataNascimento);
 
 		// salva o contato
-		ContatoDao dao = new ContatoDao();
+		Connection connection = (Connection) request.getAttribute("conexao");
+		
+		ContatoDao dao = new ContatoDao(connection);
 		dao.adiciona(contato);
 
 		RequestDispatcher rd = request.getRequestDispatcher("/contato-adicionado.jsp");
